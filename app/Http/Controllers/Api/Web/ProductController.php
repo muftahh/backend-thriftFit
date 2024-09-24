@@ -13,7 +13,7 @@ class ProductController extends Controller
         ->withAvg('reviews', 'rating')
         ->withCount('reviews')
         ->when(request()->q, function($products) {
-            $products = $products->where('title', 'like', '%'. request()->q ,'%');
+            $products = $products->where('title', 'like', '%'. request()->q . '%');
         })->latest()->paginate(8);
 
         return new ProductResource(true, 'List Data Product', $products);
