@@ -14,7 +14,7 @@ class ProductController extends Controller
         ->withCount('reviews')
         ->when(request()->q, function($products) {
             $products = $products->where('title', 'like', '%'. request()->q . '%');
-        })->latest()->paginate(8);
+        })->latest()->paginate(12);
 
         return new ProductResource(true, 'List Data Product', $products);
     }
