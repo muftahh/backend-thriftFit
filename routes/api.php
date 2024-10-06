@@ -46,6 +46,9 @@ Route::prefix('web')->group(function() {
     Route::get('/carts/total_price', [App\Http\Controllers\Api\Web\CartController::class, 'getCartPrice'], ['as' => 'web'])->middleware('auth:api_customer');
     Route::get('/carts/total_weight', [App\Http\Controllers\Api\Web\CartController::class, 'getCartWeight'], ['as' => 'web'])->middleware('auth:api_customer');
     Route::post('/carts/remove', [App\Http\Controllers\Api\Web\CartController::class, 'removeCart'], ['as' => 'web'])->middleware('auth:api_customer');
+    
     Route::post('/checkout', [App\Http\Controllers\Api\Web\CheckoutController::class, 'store'], ['as' => 'web'])->middleware('auth:api_customer');
+    // Route::post('/checkout', [App\Http\Controllers\Api\Web\CheckoutController::class, 'store']); // Tanpa middleware
+
     Route::post('/notification', [App\Http\Controllers\Api\Web\NotificationHandlerController::class, 'index'], ['as' => 'web']);
 });
