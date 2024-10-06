@@ -10,18 +10,19 @@ class InvoiceController extends Controller
 {
     public function index() {
         $invoices = Invoice::latest()->when(request()->q, function($invoices) {
-            $invoices = $invoices->where('invoice', 'like', '%'. request()->q .'%');
+            $invoices = $invoices->where('invoice', 'like', '%'. request()->q . '%');
         })->where('customer_id', auth()->guard('api_customer')->user()->id)->paginate(5);
-    
-        return new IncoiceResource(true, 'List Data Invoice : '. auth()->guard('api_customer')->user()->name .' ', $invoices);
+
+        return new IncoiceResource(true, 'List Data Invoices : '.auth()->guard('api_customer')->user()->name.'', $invoices);
     }
 
     public function show ($snap_token) {
-        $invoice = Invoice::whit('orders.product', 'customer', 'city', 'province')->where('customer_id', auth()->guard('api_customer')->user()->id)->where('snap_token', $snap_token)->first();
-
-        if ($invoice) {
-            return new IncoiceResource(true, 'Detail Data Invoice : '. $invoice->snap_token .'' , $invoice);
+        $invoice = Invoice::with('orders.product', 'customer', 'city', 'province')->where('customer_id', auth()->guard('api_customer')->user()->id)->where('snap_token', $snap_token)->first();
+        
+        if($invoice) {
+            return new IncoiceResource(true, 'Detail Data Invoice : '.$invoice->snap_token.'', $invoice);
         }
-        return new IncoiceResource(false, 'Gagal' , null);
+
+        return new IncoiceResource(false, 'Detail Data Invoice Tidak DItemukan!', null);
     }
 }
